@@ -19,6 +19,9 @@ identity:
   keycloak:
     enabled: false
 
+connectors:
+  enabled: false
+
 operate:
   enabled: false
 
@@ -34,15 +37,15 @@ prometheusServiceMonitor:
 zeebe:
   resources:
     limits:
-      cpu: 8
-      memory: 16Gi
+      cpu: 4
+      memory: 4Gi
     requests:
-      cpu: 7
-      memory: 16Gi
+      cpu: 3
+      memory: 4Gi
   clusterSize: "3"
   partitionCount: "9"
   replicationFactor: "3"
-  cpuThreadCount: 5
+  cpuThreadCount: 3
   ioThreadCount: 2
   persistenceType: disk
   pvcSize: 128Gi
@@ -58,10 +61,10 @@ zeebe-gateway:
   resources:
     limits:
       cpu: 3
-      memory: 16Gi
+      memory: 4Gi
     requests:
       cpu: 3
-      memory: 16Gi
+      memory: 4Gi
   logLevel: ERROR
   env:
     - name: ZEEBE_GATEWAY_MONITORING_ENABLED

@@ -5,7 +5,7 @@ kube-aks:
       --resource-group $(resourceGroup) \
       --name $(clusterName) \
       --node-vm-size $(machineType) \
-      --node-count 1 \
+      --node-count $(nodeCount) \
       --vm-set-type VirtualMachineScaleSets \
       --enable-cluster-autoscaler \
       --min-count $(minSize) \
