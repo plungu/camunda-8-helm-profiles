@@ -3,17 +3,19 @@
 # Already have a Cluster? Set these values to point to your existing environment
 # Otherwise, these values will be used to create a new Cluster
 
-project ?= camunda-researchanddevelopment
-region ?=  europe-west1-b # see: https://cloud.withgoogle.com/region-picker/
-clusterName ?= CLUSTER_NAME
+project ?= paul-rnd
+#project ?= camunda-researchanddevelopment
+#region ?=  europe-west1-b # see: https://cloud.withgoogle.com/region-picker/
+region ?= us-central1
+clusterName ?= paul-optumtmr-test-002
 # Azure provides temporary dns names such as:  MY_DOMAIN_NAME.region.cloudapp.azure.com
 # However GCP does not. DNS names will be configured using https://nip.io
 # dnsLabel ?= MY_DOMAIN_NAME
-machineType ?= n1-standard-8
+machineType ?= c2-standard-16
 minSize ?= 1
-maxSize ?= 24
-gcpClientId ?= GCP_CLIENT_ID # see: https://chaos-mesh.org/docs/next/gcp-authentication/
-gcpClientSecret ?= GCP_CLIENT_SECRET # see: https://chaos-mesh.org/docs/next/gcp-authentication/
+maxSize ?= 100
+gcpClientId ?= 20272397341-f3mp7vfv3sf7nptuk3vek528pqt7pbo4.apps.googleusercontent.com # see: https://chaos-mesh.org/docs/next/gcp-authentication/
+gcpClientSecret ?= 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 # see: https://chaos-mesh.org/docs/next/gcp-authentication/
 
 # ------------------------------------
 # The following variables should not be changed except for advanced use cases

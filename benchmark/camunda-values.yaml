@@ -28,22 +28,25 @@ tasklist:
 optimize:
   enabled: false
 
+connectors:
+  enabled: false
+
 prometheusServiceMonitor:
   enabled: true
 
 zeebe:
   resources:
     limits:
-      cpu: 8
-      memory: 16Gi
+      cpu: 15
+      memory: 40Gi
     requests:
-      cpu: 7
-      memory: 16Gi
-  clusterSize: "3"
-  partitionCount: "9"
+      cpu: 15
+      memory: 40Gi
+  clusterSize: "9"
+  partitionCount: "30"
   replicationFactor: "3"
-  cpuThreadCount: 5
-  ioThreadCount: 2
+  cpuThreadCount: 10
+  ioThreadCount: 5
   persistenceType: disk
   pvcSize: 128Gi
   pvcStorageClassName: ssd
@@ -51,16 +54,22 @@ zeebe:
   env:
     - name: ZEEBE_BROKER_EXECUTION_METRICS_EXPORTER_ENABLED
       value: "true"
-    - name: "ZEEBE_BROKER_CLUSTER_MESSAGECOMPRESSION"
+    - name: ZEEBE_BROKER_CLUSTER_MESSAGECOMPRESSION
       value: "SNAPPY"
+#    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
+#      value: "false"
+#    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
+#      value: "10s"
+#    - name: ZEEBE_BROKER_DATA_LOGSEGMENTSIZE
+#      value: "64MB"
 zeebe-gateway:
-  replicas: 1
+  replicas: 2
   resources:
     limits:
-      cpu: 3
+      cpu: 12
       memory: 16Gi
     requests:
-      cpu: 3
+      cpu: 12
       memory: 16Gi
   logLevel: ERROR
   env:
