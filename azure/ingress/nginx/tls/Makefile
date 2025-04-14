@@ -4,18 +4,18 @@
 # Otherwise, these values will be used to create a new Cluster
 
 #region ?= eastus
-region ?= YOUR_REGION
-clusterName ?= YOUR_CLUSTER_NAME
-resourceGroup ?= YOUR_CLUSTER_NAME-rg
+region ?= westus
+clusterName ?= paul-optum-01
+resourceGroup ?= paul-optum-rg
 
 machineType ?= Standard_A8_v2
 minSize ?= 1
 maxSize ?= 6
-certEmail ?= YOUR_EMAIL
+certEmail ?= paul.lungu@camunda.com
 
 # Configure the fully qualified domain name
 # The dnsLabel is the first part of the domain address. It will be used no matter what baseDomain you configure below
-dnsLabel ?= YOUR_DNS_LABEL
+dnsLabel ?= paul-optum
 
 # In Azure, we can use the `cloudapp.azure.com` base domain.
 # In this case, the fully qualified domain name will look like <dnsLabel>.<region>.cloudapp.azure.com
@@ -37,9 +37,9 @@ dnsManagedZone ?= aks
 
 camundaDockerRegistrySecretName ?= camunda-docker-registry
 camundaDockerRegistryUrl ?= registry.camunda.cloud
-camundaDockerRegistryUsername ?= YOUR_EE_USERNAME
-camundaDockerRegistryPassword ?= YOUR_EE_PASSWORD
-camundaDockerRegistryEmail ?= YOUR_EE_EMAIL
+camundaDockerRegistryUsername ?= paul.lungu
+camundaDockerRegistryPassword ?= poft3mal!tair_CLOG
+camundaDockerRegistryEmail ?= paul.lungu@camunda.com
 
 # ------------------------------------
 # The following variables should not be changed except for advanced use cases

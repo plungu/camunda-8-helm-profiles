@@ -38,14 +38,14 @@ zeebe:
   resources:
     limits:
       cpu: 15
-      memory: 40Gi
+      memory: 20Gi
     requests:
       cpu: 15
-      memory: 40Gi
-  clusterSize: "9"
-  partitionCount: "30"
+      memory: 20Gi
+  clusterSize: "12"
+  partitionCount: "60"
   replicationFactor: "3"
-  cpuThreadCount: 10
+  cpuThreadCount: 8
   ioThreadCount: 5
   persistenceType: disk
   pvcSize: 128Gi
@@ -56,27 +56,42 @@ zeebe:
       value: "true"
     - name: ZEEBE_BROKER_CLUSTER_MESSAGECOMPRESSION
       value: "SNAPPY"
-#    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
-#      value: "false"
-#    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
-#      value: "10s"
-#    - name: ZEEBE_BROKER_DATA_LOGSEGMENTSIZE
-#      value: "64MB"
+    - name: ZEEBE_BROKER_DATA_SNAPSHOTPERIOD
+      value: "5m"
+    - name: ZEEBE_BROKER_DATA_DISK_FREESPACE_REPLICATION
+      value: "2GB"
+    - name: ZEEBE_BROKER_DATA_DISK_FREESPACE_PROCESSING
+      value: "3GB"
+    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_ENABLED
+      value: "false"
+    - name: ZEEBE_BROKER_CLUSTER_RAFT_FLUSH_DELAYTIME
+      value: "10s"
+    - name: ZEEBE_BROKER_DATA_LOGSEGMENTSIZE
+      value: "64MB"
+    - name: ZEEBE_BROKER_CLUSTER_ELECTIONTIMEOUT
+      value: "5000ms"
+    - name: ZEEBE_BROKER_EXPERIMENTAL_MAXAPPENDSPERFOLLOWER
+      value: "8"
+    - name: ZEEBE_BROKER_EXPERIMENTAL_RAFT_REQUESTTIMEOUT
+      value: "200ms"
+      #& less than ZEEBE_BROKER_CLUSTER_ELECTIONTIMEOUT
+
+
 zeebe-gateway:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
-      cpu: 12
-      memory: 16Gi
+      cpu: 15
+      memory: 20Gi
     requests:
-      cpu: 12
-      memory: 16Gi
+      cpu: 15
+      memory: 20Gi
   logLevel: ERROR
   env:
     - name: ZEEBE_GATEWAY_MONITORING_ENABLED
       value: "true"
     - name: ZEEBE_GATEWAY_THREADS_MANAGEMENTTHREADS
-      value: "3"
+      value: "12"
     - name: ZEEBE_GATEWAY_CLUSTER_MESSAGECOMPRESSION
       value: "SNAPPY"
 # ELASTIC

@@ -1,56 +1,71 @@
-# config for https://github.com/camunda-community-hub/camunda-8-benchmark
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: benchmark
+  name: camunda-8-benchmark
   labels:
-    app: benchmark
+    app: camunda-8-benchmark
 spec:
   selector:
     matchLabels:
-      app: benchmark
-  replicas: 1
+      app: camunda-8-benchmark
+  replicas: 4
   template:
     metadata:
       labels:
-        app: benchmark
+        app: camunda-8-benchmark
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8088"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
-      - name: benchmark
-        image: berndruecker/camunda-8-benchmark:main
-        imagePullPolicy: Always
-        env:
-          - name: JAVA_OPTIONS
-            value: >-
-              -Dzeebe.client.broker.gateway-address=camunda-zeebe-gateway:26500
-              -Dzeebe.client.security.plaintext=true
-              -Dzeebe.client.request-timeout=600s
-              -Dzeebe.client.job.poll-interval=1ms
-              -Dzeebe.client.worker.max-jobs-active=2000
-              -Dbenchmark.startPiPerSecond=5
-              -Dbenchmark.maxBackpressurePercentage=1.0
-              -Dbenchmark.taskCompletionDelay=10
-              -Dbenchmark.bpmnProcessId=BenchmarkProcess
-              -Dbenchmark.jobType=benchmark-task
-              -Dbenchmark.multipleJobTypes=8
-              -Dbenchmark.payloadPath=file:/payload.json
-              -Dbenchmark.autoDeployProcess=false
-              -Dbenchmark.warmupPhaseDurationMillis=3000
-              -Dbenchmark.startRateAdjustmentStrategy=backpressure
-              -Dbenchmark.startPiIncreaseFactor=0.1
-        resources:
-          limits:
-            cpu: 1
-            memory: 4Gi
-          requests:
-            cpu: 1
-            memory: 4Gi
-        volumeMounts:
-        - name: payload
-          mountPath: payload.json
-          subPath: payload.json
-          readOnly: true
-      volumes:
-      - name: payload
-        configMap:
-          name: payload
+        - name: camunda-8-benchmark
+          image: us-central1-docker.pkg.dev/paul-rnd/paul-benchmark-repo/paul-camunda-8-benchmark:0.0.2-SNAPSHOT
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_OPTIONS
+              value: >-
+                -Dasync.corePoolSize=40
+                -Dasync.maxPoolSize=300
+                -Dasync.queueCapacity=2000
+                -Dscheduler.poolSize=60
+                -Dzeebe.client.broker.gateway-address=camunda-zeebe-gateway:26500
+                -Dzeebe.client.security.plaintext=true
+                -Dzeebe.client.worker.max-jobs-active=2000
+                -Dzeebe.client.worker.threads=500
+                -Dzeebe.client.default-job-worker-stream-enabled=true
+                -Dbenchmark.startPiPerSecond=300
+                -Dbenchmark.taskCompletionDelay=100
+                -Dbenchmark.multipleJobTypes=0
+                -Denchmark.warmupPhaseDurationMillis=6000
+                -Dbenchmark.startRateAdjustmentStrategy=backpressure
+                -Dbenchmark.maxBackpressurePercentage=30.0
+                -Dbenchmark.startPiReduceFactor=0.1
+                -Dbenchmark.startPiIncreaseFactor=0
+                -Dbenchmark.fixedBackOffDelay=0
+                -Dbenchmark.bpmnProcessId=PerformanceWorkflow
+                -Dbenchmark.startProcesses=true         
+                -Dbenchmark.startWorkers=true
+                -Dbenchmark.jobType=benchmark-task
+                -Dbenchmark.payloadPath=classpath:bpmn/typical_payload.json
+                -Dbenchmark.autoDeployProcess=true
+                -Dbenchmark.bpmnResource=classpath:bpmn/PerformanceWorkflow.bpmn
+          resources:
+            limits:
+              cpu: 5
+              memory: 10Gi
+            requests:
+              cpu: 5
+              memory: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: camunda-8-benchmark
+
+spec:
+  selector:
+    app: camunda-8-benchmark
+  ports:
+    - port: 8088
+      targetPort: 8088
