@@ -28,9 +28,9 @@ maxSize ?= 100
 
 camundaDockerRegistrySecretName ?= camunda-docker-registry
 camundaDockerRegistryUrl ?= registry.camunda.cloud
-camundaDockerRegistryUsername ?= paul.lungu
-camundaDockerRegistryPassword ?= poft3mal!tair_CLOG
-camundaDockerRegistryEmail ?= paul.lungu@camunda.com
+camundaDockerRegistryUsername ?=
+camundaDockerRegistryPassword ?=
+camundaDockerRegistryEmail ?=
 
 # ------------------------------------
 # The following variables should not be changed except for advanced use cases
